@@ -1,0 +1,19 @@
+Done(?):
+1) user can make comments to articles. Comments are shown and can be made on article_detail page (began implementing)
+2) button that shows list of all authors and their articles (began implementing)
+3) user can make changes to articles that they have written
+
+Doing:
+4) api app that can respon to different requests such as GET, PUSH 
+to communicate data about articles, users etc. and changing of this data.
+       
+To do:
+5) user profile page?
+6) user can reply to comments?
+7) user can react to comments with emoji?
+8) styling the app...
+9) search for articles by article name or author?
+10) consume api for some functionality
+  a) find resources online through google api that cover same subject as article written by user.
+  This could be used to show user(s) suggestions regarding sources of reference for fact checking, learning more etc. 
+  b) 

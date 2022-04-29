@@ -1,0 +1,40 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class="article-detail">
+    <div class="article">
+        <img src="{{article.thumb.url}}"/>
+        <h2> {{article.title}}</h2>
+          <p>{{article.body}} </p>
+          <p>{{article.date}} </p>          
+          <ul>
+            {% for comment in comments %}
+            {% if comment.article == article %}
+           <li> {{comment.body}} </li>
+           <p>Written by:</p>
+           <li> {{comment.author}} </li>
+           <li></li>
+            {% endif %}
+
+            {% endfor %}           
+        </ul>
+          <nav>   
+              <ul>
+                  <li>
+                    <div class="create-article_comment">
+                        <h2>Write a comment</h2>
+                        <form class="site-form" action="{% url 'articles:comment' slug=article.slug %}" method="post">
+                            {% csrf_token %}
+                            {{comment}}
+                            <input type="submit" value="Send">
+                        </form>
+                    </div> 
+                  </li>
+                  <li>
+                    <a href="{% url 'articles:modify' slug=article.slug %}">Modify article</a>
+                </li>
+                </ul>
+            </nav>
+    </div>
+</div>
+{% endblock %}

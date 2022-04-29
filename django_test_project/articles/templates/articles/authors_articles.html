@@ -1,0 +1,17 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+        <h1> Authors and the articles they have written: </h1>
+        <div class="authors">
+        {% for author in authors %}
+        <div class="author">
+            <p>{{author}}</p>
+            {% for article in articles %}
+            {% if article.author == author %}
+            {{article}}
+            {% endif %}
+            {% endfor %}           
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
