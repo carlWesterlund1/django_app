@@ -9,6 +9,4 @@ get_response = requests.get(endpoint)
 
 #put_response = requests.put(endpoint, {'title': ['api-article'], 'body': ['article created with api-client'], 'slug': ['api-article'], 'thumb': ['']})  
 
-
-
-print({'data' : get_response.json()})
+print({'data' : get_response.json()}) # change get_response if using other variable

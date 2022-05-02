@@ -1,10 +1,9 @@
-from django.shortcuts import render
-from django.http import JsonResponse
 from articles.models import Article
 from .serializers import ArticleSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import generics
 
 
 @api_view(['GET', 'POST'])
@@ -18,6 +17,24 @@ def article_list(request):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+"""class ArticleListAPIView(generics.ListAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer"""
+    
+
+class ArticleListCreateAPIView(generics.ListCreateAPIView): # can return list of article or create
+    queryset = Article.objects.all()                        # new article depending on request method
+    serializer_class = ArticleSerializer
+
+    """def perform_create(self, serializer):
+        print(serializer.validated_data)
+        title = serializer.validated_data.get('title')
+        body = serializer.validated_data.get('body') or None
+        if body is None :
+            body = title
+        serializer.save(body=body)"""
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def article_detail(request, id):
@@ -37,3 +54,10 @@ def article_detail(request, id):
     elif request.method == 'DELETE': 
         article.delete()
         return Response(status.HTTP_204_NO_CONTENT)
+
+
+class ArticleDetailAPIView(generics.RetrieveAPIView): # gets article details like function based view above also can
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    lookup_field = 'pk'
+
