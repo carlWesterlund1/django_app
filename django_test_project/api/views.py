@@ -3,7 +3,7 @@ from .serializers import ArticleSerializer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework import generics, mixins
+from rest_framework import authentication, generics, mixins, permissions
 
 
 @api_view(['GET', 'POST'])
@@ -38,9 +38,9 @@ def article_detail(request, id):
         return Response(status.HTTP_204_NO_CONTENT)
 
 class ArticleMixinView(mixins.CreateModelMixin,
-                    mixins.ListModelMixin,
-                    mixins.RetrieveModelMixin,
-                    generics.GenericAPIView):
+                      mixins.ListModelMixin,
+                      mixins.RetrieveModelMixin,
+                      generics.GenericAPIView):
 
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
@@ -53,19 +53,26 @@ class ArticleMixinView(mixins.CreateModelMixin,
         return self.list(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        print("post in MixinView")
         return self.create(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.put(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 """class ArticleListAPIView(generics.ListAPIView):
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer"""
+       queryset = Article.objects.all()
+       serializer_class = ArticleSerializer"""
 
-"""class ArticleListCreateAPIView(generics.ListCreateAPIView): # can return list of article or create
-    queryset = Article.objects.all()                        # new article depending on request method
-    serializer_class = ArticleSerializer
+class ArticleListCreateAPIView(generics.ListCreateAPIView): # can return list of article or create
+       queryset = Article.objects.all()                        # new article depending on request method
+       serializer_class = ArticleSerializer
+       authentication_classes = [authentication.SessionAuthentication] # who is authenticated
+       permission_classes = [permissions.IsAuthenticated] # who has permission to access this view
 
-    def perform_create(self, serializer):
+""" def perform_create(self, serializer):
         print(serializer.validated_data)
         title = serializer.validated_data.get('title')
         body = serializer.validated_data.get('body') or None
@@ -74,11 +81,11 @@ class ArticleMixinView(mixins.CreateModelMixin,
         serializer.save(body=body)"""
 
 
-"""class ArticleDetailAPIView(generics.RetrieveAPIView): # gets article details like function based view above also can
-    queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
-    lookup_field = 'pk'
-    """
+class ArticleDetailAPIView(generics.RetrieveAPIView): # gets article details like function based view above also can
+       queryset = Article.objects.all()
+       serializer_class = ArticleSerializer
+       lookup_field = 'pk'
+    
 
 class ArticleUpdateAPIView(generics.UpdateAPIView): # gets article details like function based view above also can
     queryset = Article.objects.all()
@@ -88,7 +95,6 @@ class ArticleUpdateAPIView(generics.UpdateAPIView): # gets article details like 
         instance = serializer.save()
 
 class ArticleDeleteAPIView(generics.DestroyAPIView): # deletes article like function based view above also can
-    print("ArticleDeleteAPIView has been called")
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     lookup_field = 'pk'
