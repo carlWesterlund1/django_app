@@ -6,5 +6,5 @@ data =  {'title': ['api-article232'],
         'body': ['testing generic APIView'], 
         'slug': ['api-article'],'thumb': ['']}
 
-get_response = requests.post(endpoint, data) 
-print({'data' : get_response.json()})
+post_response = requests.post(endpoint, data) 
+print({'data' : post_response.json()})

@@ -1,7 +1,7 @@
 import requests
 
 id = 17 # id of article to change
-endpoint="http://127.0.0.1:8000/api/articles/{0}".format(id) 
+endpoint="http://127.0.0.1:8000/api/details/{0}".format(id) 
 
 get_response = requests.get(endpoint)  
 

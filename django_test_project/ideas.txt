@@ -4,7 +4,7 @@ Done(?):
 3) user can make changes to articles that they have written
 
 Doing:
-4) api app that can respon to different requests such as GET, PUSH 
+4) api app that can respond to different requests such as GET, PUSH 
 to communicate data about articles, users etc. and changing of this data.
        
 To do:

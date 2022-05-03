@@ -21,7 +21,7 @@ def article_list(request):
 """class ArticleListAPIView(generics.ListAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer"""
-    
+
 
 class ArticleListCreateAPIView(generics.ListCreateAPIView): # can return list of article or create
     queryset = Article.objects.all()                        # new article depending on request method
@@ -61,3 +61,17 @@ class ArticleDetailAPIView(generics.RetrieveAPIView): # gets article details lik
     serializer_class = ArticleSerializer
     lookup_field = 'pk'
 
+class ArticleUpdateAPIView(generics.UpdateAPIView): # gets article details like function based view above also can
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    lookup_field = 'pk'
+    def perform_update(self, serializer):
+        instance = serializer.save()
+
+class ArticleDeleteAPIView(generics.DestroyAPIView): # deletes article like function based view above also can
+    print("ArticleDeleteAPIView has been called")
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    lookup_field = 'pk'
+    def perform_destroy(self, instance):
+        super().perform_destroy(instance)
