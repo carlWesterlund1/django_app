@@ -1,6 +1,20 @@
-% extends 'base_layout.html' %}
+{% extends 'base_layout.html' %}
 
 {% block content %}
 
+        <h1> Profile Page </h1>
+        <div>
+        {% for user in users %}
+        <div>  
+            {% if request.user == user %}
+            <h2>Name:</h2>
+            <p>{{user.username}}</p>
+            <h2>logged in last time:</h2>
+            <p>{{user.last_login}}</p>
+            {% endif %}
+            {% endfor %}           
+        </div>
+        
+        </div>
 
 {% endblock %} 

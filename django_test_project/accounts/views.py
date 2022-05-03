@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 
 
 def signup_view(request):
@@ -38,6 +39,6 @@ def logout_view(request):
 @login_required(login_url="/accounts/login/")
 def user_page_view(request):
     # Get data about user to display in user page
-
-
-    return render(request, 'accounts/user_page.html')
+    User = get_user_model()
+    users = User.objects.all()
+    return render(request, 'accounts/user_page.html', {'users': users})
