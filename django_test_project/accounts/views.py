@@ -3,19 +3,23 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
+from . import forms, models
 
 
 def signup_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
+        user_form = UserCreationForm(request.POST)
+        profile_form = forms.CreateUserProfile(request.POST) # for creating user profile when signing up new user
+        if user_form.is_valid():
+            user = user_form.save()
             login(request, user)
+            if profile_form.is_valid():
+                profile_form.save()    # should save user profile object to database
             return redirect('articles:list')
     else:
         print("else in sign_up")
-        form = UserCreationForm()
-    return render(request,'accounts/signup.html', {'form' : form})
+        user_form = UserCreationForm()
+    return render(request,'accounts/signup.html', {'user_form' : user_form})
 
 def login_view(request):
     if request.method=='POST':
@@ -38,7 +42,9 @@ def logout_view(request):
 
 @login_required(login_url="/accounts/login/")
 def user_page_view(request):
-    # Get data about user to display in user page
-    User = get_user_model()
-    users = User.objects.all()
-    return render(request, 'accounts/user_page.html', {'users': users})
+    #User = get_user_model()
+    #users = User.objects.all()
+    users = models.UserProfile.objects.all() # retrieves all user profiles
+    profile_form = forms.CreateUserProfile   # creates user profile form so that user will be able to update personal information on profile page
+
+    return render(request, 'accounts/user_page.html', {'users': users, 'profile_form': profile_form})
