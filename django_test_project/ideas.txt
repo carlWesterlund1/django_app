@@ -6,9 +6,9 @@ Done(?):
 Doing:
 4) api app that can respond to different requests such as GET, PUSH 
 to communicate data about articles, users etc. and changing of this data.
+5) a) show user their profile page b) enable user to change personal information such as name c) user profile pics 
        
 To do:
-5) user profile page?
 6) user can reply to comments?
 7) user can react to comments with emoji?
 8) styling the app...
