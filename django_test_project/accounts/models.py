@@ -11,6 +11,11 @@ user_permissions
 is_staff, is_active, is_superuser
 last_login, date_joined
 """
-class UserProfile(User):
-    desription = models.TextField(blank=True)
+class Profile(models.Model):
+    description = models.TextField(blank=True)
     profile_pic = models.ImageField(default="default.png", blank=True)
+    user = models.ForeignKey(User,  default=None, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        user_str = str(self.user)
+        return user_str

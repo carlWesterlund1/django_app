@@ -1,8 +1,10 @@
-from django import forms
+from xml.etree.ElementInclude import include
 from . import models
+from django.contrib.auth.forms import UserCreationForm  
+from django import forms
 
 
-class CreateUserProfile(forms.ModelForm):
-    class Meta:
-        model=models.UserProfile
-        fields=['username', 'first_name', 'last_name']
+class CreateUserProfile(UserCreationForm):
+    
+    class Meta(UserCreationForm.Meta):
+        include = ['description', 'profile_pic']

@@ -10,3 +10,4 @@ class CreateComment(forms.ModelForm):
     class Meta:
         model=models.Article_comment
         fields=['title', 'body']
+        
