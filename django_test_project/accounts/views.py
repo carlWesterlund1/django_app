@@ -47,12 +47,13 @@ def profile_view(request):
         users = User.objects.all()
         print(users)
         profiles = Profile.objects.all()
-        return render(request, 'accounts/user_page.html', {'users': users, 'profiles': profiles})
+        return render(request, 'accounts/profile.html', {'users': users, 'profiles': profiles})
 
 @login_required(login_url="/accounts/login/")
 def update_profile_view(request):
     user = request.user
-    profile = Profile.objects.get(user=user)
+    print(user.pk)
+    profile = Profile.objects.get(user=user.pk)
     if request.method=='POST':
         form = CreateUserProfile(request.POST, instance=profile) # Takes user input data and article that should be modified and 
         if form.is_valid:

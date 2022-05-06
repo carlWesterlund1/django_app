@@ -4,7 +4,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
 
-class CreateUserProfile(UserCreationForm):
+class CreateUserProfile(forms.ModelForm):
     
-    class Meta(UserCreationForm.Meta):
-        include = ['description', 'profile_pic']
+    class Meta():
+        model=models.Profile
+        fields=['name', 'user' 'profile_pic', 'description']
+        
+    
+    

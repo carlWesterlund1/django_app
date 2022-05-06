@@ -12,6 +12,7 @@ is_staff, is_active, is_superuser
 last_login, date_joined
 """
 class Profile(models.Model):
+    name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     profile_pic = models.ImageField(default="default.png", blank=True)
     user = models.ForeignKey(User,  default=None, on_delete=models.SET_NULL, null=True)

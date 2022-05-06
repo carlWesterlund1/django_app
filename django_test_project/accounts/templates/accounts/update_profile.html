@@ -1,0 +1,13 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<div class=>
+    <h2>make changes to profile information</h2>
+    <form class="site-form" action="{% url 'accounts:update-profile' %}" method="post">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Send">
+    </form>
+    <p></p>
+</div> 
+{% endblock %} 
