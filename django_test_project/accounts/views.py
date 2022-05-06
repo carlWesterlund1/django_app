@@ -1,9 +1,11 @@
+from asyncio import create_subprocess_exec
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from .models import Profile
+from .forms import CreateUserProfile
 
 
 def signup_view(request):
@@ -31,7 +33,7 @@ def login_view(request):
           else:
               return redirect('articles:list')
     else:
-        form = AuthenticationForm()
+        form = AuthenticationForm() 
     return render(request, 'accounts/login.html', {'form': form})
 
 def logout_view(request):
@@ -40,7 +42,22 @@ def logout_view(request):
         return redirect('articles:list')
 
 @login_required(login_url="/accounts/login/")
-def user_page_view(request):
-    User = get_user_model()
-    users = User.objects.all()
-    return render(request, 'accounts/user_page.html', {users: 'users'})
+def profile_view(request):
+        User = get_user_model()
+        users = User.objects.all()
+        print(users)
+        profiles = Profile.objects.all()
+        return render(request, 'accounts/user_page.html', {'users': users, 'profiles': profiles})
+
+@login_required(login_url="/accounts/login/")
+def update_profile_view(request):
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    if request.method=='POST':
+        form = CreateUserProfile(request.POST, instance=profile) # Takes user input data and article that should be modified and 
+        if form.is_valid:
+            form.save() # updates article information
+            return redirect('accounts:user-page')
+    else:
+        form = CreateUserProfile(instance=profile)
+        return render(request, 'accounts/update_profile.html', {'form': form})
