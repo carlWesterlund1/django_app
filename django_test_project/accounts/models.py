@@ -20,3 +20,6 @@ class Profile(models.Model):
     def __str__(self):
         user_str = str(self.user)
         return user_str
+# django.core.exceptions.FieldError: Unknown field(s) (userprofile_pic) specified for Profile
+# Fix problems with migrations. Probably changed name of field from userprofile_pic to profile_pic.
+# Also added name field which should still be non-migrated
