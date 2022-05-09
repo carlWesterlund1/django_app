@@ -14,7 +14,7 @@ last_login, date_joined
 class Profile(models.Model):
     name = models.CharField(max_length=100, default=None, null=True)
     description = models.TextField(blank=True)
-    profile_pic = models.ImageField(default="default.png", blank=True)
+    profile_pic = models.ImageField(default="profile_default.jpg", blank=True)
     user = models.ForeignKey(User, default=None, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):

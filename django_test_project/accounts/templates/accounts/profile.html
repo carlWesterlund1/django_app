@@ -11,6 +11,13 @@
             <p>{{user.username}}</p>
             <h2>logged in last time:</h2>
             <p>{{user.last_login}}</p>
+            {% for profile in profiles %}
+            {% if request.user.pk == profile.user_id %}
+            <img src="{{profile.profile_pic.url}}"/>
+            <h2>Description:</h2>
+            <p>{{profile.description}}</p>
+            {% endif %}
+            {% endfor %}
             {% endif %}
             {% endfor %}           
         </div>
