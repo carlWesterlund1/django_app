@@ -1,5 +1,6 @@
 {% load static %}
 
+
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -9,8 +10,11 @@
     </head>
     <body>
         <header class="wrapper">
+
             <nav>
-                <ul>
+                
+               <a href="{% url 'articles:list' %}"><img src="{% static 'start-button.png' %}"  style="width:42px;height:42px;"></a>
+               <ul>
                     <li><a href="{% url 'articles:authors_articles' %}">View authors and their articles</a></li>
                     {% if user.is_authenticated %}
                     <li>

@@ -45,7 +45,6 @@ def logout_view(request):
 def profile_view(request):
         User = get_user_model()
         users = User.objects.all()
-        print(users)
         profiles = Profile.objects.all()
         return render(request, 'accounts/profile.html', {'users': users, 'profiles': profiles})
 

@@ -2,11 +2,12 @@ Done(?):
 1) user can make comments to articles. Comments are shown and can be made on article_detail page (began implementing)
 2) button that shows list of all authors and their articles (began implementing)
 3) user can make changes to articles that they have written
+4) a) show user their profile page b) enable user to change personal information such as name c) user profile pics 
 
 Doing:
-4) api app that can respond to different requests such as GET, PUSH 
+5) api app that can respond to different requests such as GET, PUSH 
 to communicate data about articles, users etc. and changing of this data.
-5) a) show user their profile page b) enable user to change personal information such as name c) user profile pics 
+
        
 To do:
 6) user can reply to comments?
