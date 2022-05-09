@@ -8,7 +8,7 @@ class CreateUserProfile(forms.ModelForm):
     
     class Meta():
         model=models.Profile
-        fields=['name', 'user' 'profile_pic', 'description']
+        fields=['name', 'profile_pic', 'description'] 
         
     
     

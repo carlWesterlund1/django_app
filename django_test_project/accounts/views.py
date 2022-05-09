@@ -14,7 +14,7 @@ def signup_view(request):
         if user_form.is_valid():
             new_user = user_form.save()
             user_profile = Profile() # creates user profile object
-            user_profile.user = new_user # sets foreignkey of user profile to the created user object
+            user_profile.user = new_user # sets foreignkey of user profile to the saved user object
             user_profile.save()
             login(request, new_user)  
             return redirect('articles:list')
@@ -52,13 +52,12 @@ def profile_view(request):
 @login_required(login_url="/accounts/login/")
 def update_profile_view(request):
     user = request.user
-    print(user.pk)
-    profile = Profile.objects.get(user=user.pk)
+    profile = Profile.objects.get(user_id=user.pk) # gets correct profile based on foreignkey being equal to primary key of user sending request
     if request.method=='POST':
-        form = CreateUserProfile(request.POST, instance=profile) # Takes user input data and article that should be modified and 
+        form = CreateUserProfile(request.POST, instance=profile) # Takes user input data and profile that should be modified and 
         if form.is_valid:
-            form.save() # updates article information
-            return redirect('accounts:user-page')
+            form.save() # updates profile information
+            return redirect('accounts:profile')
     else:
         form = CreateUserProfile(instance=profile)
         return render(request, 'accounts/update_profile.html', {'form': form})

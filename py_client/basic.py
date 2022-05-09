@@ -13,3 +13,5 @@ print({'data' : get_response.json()})
 """article_dict = {}
 for x in get_response.json(): article_dict[x['title']]=x # creates python dictionary with titles of articles as keys
 print(article_dict)"""
+
+# Authentication credentials are not provided...need to handle authentication for api client to work
