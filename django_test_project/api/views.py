@@ -70,7 +70,7 @@ class ArticleListCreateAPIView(generics.ListCreateAPIView): # can return list of
        queryset = Article.objects.all()                        # new article depending on request method
        serializer_class = ArticleSerializer
        authentication_classes = [authentication.SessionAuthentication] # who is authenticated
-       permission_classes = [permissions.IsAuthenticated] # who has permission to access this view
+       permission_classes = [permissions.DjangoModelPermissions] # who has permission to access this view
 
 """ def perform_create(self, serializer):
         print(serializer.validated_data)

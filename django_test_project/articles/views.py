@@ -42,8 +42,18 @@ def article_create(request):
         if form.is_valid():
             instance = form.save(commit=False)
             instance.author = request.user # The user who made article is made into author of article
-            instance.save() #save to database. 
-            return redirect('articles:list')
+            articles_titles = list(Article.objects.all().values_list('title', flat=True))
+            if instance.title not in articles_titles: 
+                instance.slug = instance.title
+                instance.save() #save to database. 
+                return redirect('articles:list')
+            else:
+                nr = articles_titles.count(instance.title)
+                instance.title = instance.title + "(" + str(nr) + ")"
+                instance.slug = instance.title
+                instance.save() #save to database. 
+                return redirect('articles:list')
+
     else: # if GET request, send user form for creating new article
         form = forms.CreateArticle()
     return render(request, 'articles/article_create.html', {'form': form})
