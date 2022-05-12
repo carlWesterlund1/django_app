@@ -9,18 +9,16 @@
           <p>{{article.date}} </p>   
           <h2>Author:</h2>
           <p>{{author}}</p>
-          
-          <ul>
-            {% for comment in comments %}
-            {% if comment.article == article %}
-           <li> {{comment.body}} </li>
-           <p>Written by:</p>
-           <li> {{comment.author}} </li>
-           <li></li>
-            {% endif %}
+          <br>
+          <br>
+          <b>Comments</b>
+          {% for comment in comments %}
 
-            {% endfor %}           
-        </ul>
+           <p> {{comment.body}} </p>
+           <p>Written by:</p>
+           <p> {{comment.author}} </p>
+           <br>
+          {% endfor %}
           <nav>   
               <ul>
                   <li>
@@ -28,7 +26,7 @@
                         <h2>Write a comment</h2>
                         <form class="site-form" action="{% url 'articles:comment' slug=article.slug %}" method="post">
                             {% csrf_token %}
-                            {{comment}}
+                            {{comment_form}}
                             <input type="submit" value="Send">
                         </form>
                     </div> 

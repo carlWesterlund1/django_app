@@ -15,11 +15,11 @@ def article_detail(request, slug):
     article = Article.objects.get(slug=slug)
     author = article.get_author()
     try:
-        comments = Article_comment.objects.all() # Try to retrieve all comments already written
+        comments = Article_comment.objects.filter(article=article) # Try to retrieve all comments already written
     except Article_comment.objects.all().DoesNotExist:
         comments = None    
-    comment = forms.CreateComment()
-    return render(request, 'articles/article_detail.html', {'article': article, "comments": comments, 'comment': comment, 'author': author})
+    comment_form = forms.CreateComment()
+    return render(request, 'articles/article_detail.html', {'article': article, "comments": comments, 'comment_form': comment_form, 'author': author})
 
 def authors_articles(request): 
     articles = Article.objects.all() # All articles
