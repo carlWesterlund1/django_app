@@ -16,12 +16,15 @@
             <img src="{{profile.profile_pic.url}}"/>
             <h2>Description:</h2>
             <p>{{profile.description}}</p>
+            <h2>Full name:</h2>
+            <p>{{profile.name}}</p>
+            <a href="{% url 'accounts:update-profile' %}">Update profile</a> 
             {% endif %}
             {% endfor %}
             {% endif %}
             {% endfor %}           
         </div>
-        <a href="{% url 'accounts:update-profile' %}">Update profile</a> 
+        
         </div>
 
 {% endblock %} 

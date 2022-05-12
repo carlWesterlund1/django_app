@@ -12,14 +12,18 @@ def article_list(request):
     return render(request, "articles/article_list.html", { 'articles': articles})
 
 def article_detail(request, slug):
-         article = Article.objects.get(slug=slug)
-         try:
-             comments = Article_comment.objects.all() # Try to retrieve all comments already written
-             pass
-         except Article_comment.objects.all().DoesNotExist:
-             comments = None
-         comment = forms.CreateComment()
-         return render(request, 'articles/article_detail.html', {'article': article, "comments": comments, 'comment': comment})
+    article = Article.objects.get(slug=slug)
+    try:
+        author = article.get_author()
+        pass
+    except:
+        author = None
+    try:
+        comments = Article_comment.objects.all() # Try to retrieve all comments already written
+    except Article_comment.objects.all().DoesNotExist:
+        comments = None    
+    comment = forms.CreateComment()
+    return render(request, 'articles/article_detail.html', {'article': article, "comments": comments, 'comment': comment, 'author': author})
 
 def authors_articles(request): 
     articles = Article.objects.all() # All articles

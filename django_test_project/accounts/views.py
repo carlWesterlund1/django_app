@@ -54,11 +54,9 @@ def update_profile_view(request):
     profile = Profile.objects.get(user_id=user.pk) # gets correct profile based on foreignkey being equal to primary key of user sending request
     if request.method=='POST':
         form = CreateUserProfile(request.POST, request.FILES, instance=profile, ) # Takes user input data and profile that should be modified and 
-        print(request.POST)
         if form.is_valid:
             form.save() # updates profile information
             return redirect('accounts:profile')
     else:
         form = CreateUserProfile(instance=profile)
-        print(profile.profile_pic)
         return render(request, 'accounts/update_profile.html', {'form': form})
