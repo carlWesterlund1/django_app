@@ -10,4 +10,8 @@ class CreateComment(forms.ModelForm):
     class Meta:
         model=models.Article_comment
         fields=['title', 'body']
-        
+
+class SearchArticle(forms.ModelForm):
+    class Meta:
+        model=models.Article
+        fields=['title']

@@ -3,7 +3,6 @@ from . import models
 from django.contrib.auth.forms import UserCreationForm  
 from django import forms
 
-
 class CreateUserProfile(forms.ModelForm):
     
     class Meta():

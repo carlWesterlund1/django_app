@@ -1,10 +1,23 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
+
+        <h2> Search for article</h2>
+        <form class="site-form" action="{% url 'articles:list' %}" method="post">
+            {% csrf_token %}
+            {{search_form}}
+            <input type="submit" value="Search">
+        </form>
+        <br>
+        {% if request.method == 'GET' %}
         <h1> Article list </h1>
-        <div class="articles">
+        {% endif %}
+        {% if request.method == 'POST' %}
+        <h1> Search results: </h1>
+        {% endif %}
+        <div>
         {% for article in articles %}
-        <div class="article">
+        <div>
             <h2> <a href="{% url 'articles:detail' slug=article.slug %}"> {{article.title}} </a> </h2>
             <p>{{article.snippet}}</p>
             <p>{{article.date}}</p>

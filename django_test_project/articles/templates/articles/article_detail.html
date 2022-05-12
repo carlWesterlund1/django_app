@@ -1,8 +1,7 @@
 {% extends 'base_layout.html' %}
 
 {% block content %}
-<div class="article-detail">
-    <div class="article">
+<div>
         <img src="{{article.thumb.url}}"/>
         <h2> {{article.title}}</h2>
           <p>{{article.body}} </p>
@@ -13,16 +12,13 @@
           <br>
           <b>Comments</b>
           {% for comment in comments %}
-
            <p> {{comment.body}} </p>
            <p>Written by:</p>
            <p> {{comment.author}} </p>
            <br>
           {% endfor %}
           <nav>   
-              <ul>
-                  <li>
-                    <div class="create-article_comment">
+                    <div>
                         <h2>Write a comment</h2>
                         <form class="site-form" action="{% url 'articles:comment' slug=article.slug %}" method="post">
                             {% csrf_token %}
@@ -30,12 +26,7 @@
                             <input type="submit" value="Send">
                         </form>
                     </div> 
-                  </li>
-                  <li>
-                    <a href="{% url 'articles:modify' slug=article.slug %}">Modify article</a>
-                </li>
-                </ul>
+                  <h3> <a href="{% url 'articles:modify' slug=article.slug %}">Modify article</a></h3>
             </nav>
-    </div>
 </div>
 {% endblock %}

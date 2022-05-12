@@ -9,7 +9,20 @@ from django.contrib.auth import get_user_model
 
 def article_list(request):
     articles = Article.objects.all().order_by("date")
-    return render(request, "articles/article_list.html", { 'articles': articles})
+    if request.method == 'POST':
+        print('method is post')
+        articles = []
+        form = forms.SearchArticle(request.POST) # Form takes in user input
+        if form.is_valid():
+            print('form is valid')
+            instance = form.save(commit=False)
+            for article in list(Article.objects.all()):
+                if instance.title==article.title:
+                    print('match found')
+                    print(article)
+                    articles.append(article)
+    search_form = forms.SearchArticle()
+    return render(request, "articles/article_list.html", { 'articles': articles, 'search_form': search_form})
 
 def article_detail(request, slug):
     article = Article.objects.get(slug=slug)
@@ -27,12 +40,6 @@ def authors_articles(request):
     for article in articles:
         if article.author != None:
             authors.add(article.get_author()) # Adds the authors of articles to list article_authors. Articles can have same author so possible dublicates
-    #User = get_user_model()
-    #users = User.objects.all() # Retrives list of all users
-    #authors = []
-    #for user in users:
-        #if (user in article_authors): # Checks if user is an author
-            #authors.append(user) # Creates list of unique authors
     return render(request, 'articles/authors_articles.html', {'authors': authors, 'articles': articles}) # Renders as third parameter list of all the users who are authors and all articles
 
 
@@ -54,7 +61,6 @@ def article_create(request):
                 instance.slug = instance.title
                 instance.save() #save to database. 
                 return redirect('articles:list')
-
     else: # if GET request, send user form for creating new article
         form = forms.CreateArticle()
     return render(request, 'articles/article_create.html', {'form': form})
