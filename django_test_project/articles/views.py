@@ -13,11 +13,7 @@ def article_list(request):
 
 def article_detail(request, slug):
     article = Article.objects.get(slug=slug)
-    try:
-        author = article.get_author()
-        pass
-    except:
-        author = None
+    author = article.get_author()
     try:
         comments = Article_comment.objects.all() # Try to retrieve all comments already written
     except Article_comment.objects.all().DoesNotExist:
@@ -27,15 +23,16 @@ def article_detail(request, slug):
 
 def authors_articles(request): 
     articles = Article.objects.all() # All articles
-    article_authors = []
+    authors = set()
     for article in articles:
-        article_authors.append(article.get_author()) # Adds the authors of articles to list article_authors. Articles can have same author so possible dublicates
-    User = get_user_model()
-    users = User.objects.all() # Retrives list of all users
-    authors = []
-    for user in users:
-        if (user in article_authors): # Checks if user is an author
-            authors.append(user) # Creates list of unique authors
+        if article.author != None:
+            authors.add(article.get_author()) # Adds the authors of articles to list article_authors. Articles can have same author so possible dublicates
+    #User = get_user_model()
+    #users = User.objects.all() # Retrives list of all users
+    #authors = []
+    #for user in users:
+        #if (user in article_authors): # Checks if user is an author
+            #authors.append(user) # Creates list of unique authors
     return render(request, 'articles/authors_articles.html', {'authors': authors, 'articles': articles}) # Renders as third parameter list of all the users who are authors and all articles
 
 

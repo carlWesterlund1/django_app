@@ -3,28 +3,20 @@
 {% block content %}
 
         <h1> Profile Page </h1>
-        <div>
-        {% for user in users %}
         <div>  
-            {% if request.user == user %}
             <h2>Name:</h2>
             <p>{{user.username}}</p>
             <h2>logged in last time:</h2>
             <p>{{user.last_login}}</p>
-            {% for profile in profiles %}
-            {% if request.user.pk == profile.user_id %}
+            {% if profile != None %}
             <img src="{{profile.profile_pic.url}}"/>
             <h2>Description:</h2>
             <p>{{profile.description}}</p>
             <h2>Full name:</h2>
             <p>{{profile.name}}</p>
             <a href="{% url 'accounts:update-profile' %}">Update profile</a> 
-            {% endif %}
-            {% endfor %}
-            {% endif %}
-            {% endfor %}           
+            {% endif %}           
         </div>
         
-        </div>
 
 {% endblock %} 

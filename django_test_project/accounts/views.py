@@ -43,10 +43,12 @@ def logout_view(request):
 
 @login_required(login_url="/accounts/login/")
 def profile_view(request):
-        User = get_user_model()
-        users = User.objects.all()
-        profiles = Profile.objects.all()
-        return render(request, 'accounts/profile.html', {'users': users, 'profiles': profiles})
+        user = request.user
+        try:
+          profile = Profile.objects.get(user=request.user)
+        except:
+            profile = None
+        return render(request, 'accounts/profile.html', {'profile': profile, 'user': user})
 
 @login_required(login_url="/accounts/login/")
 def update_profile_view(request):

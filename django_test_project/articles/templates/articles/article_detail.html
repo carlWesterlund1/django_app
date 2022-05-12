@@ -8,7 +8,8 @@
           <p>{{article.body}} </p>
           <p>{{article.date}} </p>   
           <h2>Author:</h2>
-          <p>{{author}}</p>         
+          <p>{{author}}</p>
+          
           <ul>
             {% for comment in comments %}
             {% if comment.article == article %}
@@ -18,8 +19,7 @@
            <li></li>
             {% endif %}
 
-            {% endfor %}
-                    
+            {% endfor %}           
         </ul>
           <nav>   
               <ul>
