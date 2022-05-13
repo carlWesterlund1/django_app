@@ -10,17 +10,13 @@ from django.contrib.auth import get_user_model
 def article_list(request):
     articles = Article.objects.all().order_by("date")
     if request.method == 'POST':
-        print('method is post')
         articles = []
-        form = forms.SearchArticle(request.POST) # Form takes in user input
+        form = forms.SearchArticle(request.POST) # Form for finding article matching user input
         if form.is_valid():
-            print('form is valid')
-            instance = form.save(commit=False)
+            instance = form.save(commit=False) # instance only for reference, doesn't save()
             for article in list(Article.objects.all()):
                 if instance.title==article.title:
-                    print('match found')
-                    print(article)
-                    articles.append(article)
+                    articles.append(article) # appending to list with matches
     search_form = forms.SearchArticle()
     return render(request, "articles/article_list.html", { 'articles': articles, 'search_form': search_form})
 
@@ -35,7 +31,7 @@ def article_detail(request, slug):
     return render(request, 'articles/article_detail.html', {'article': article, "comments": comments, 'comment_form': comment_form, 'author': author})
 
 def authors_articles(request): 
-    articles = Article.objects.all() # All articles
+    articles = Article.objects.all() 
     authors = set()
     for article in articles:
         if article.author != None:
@@ -46,22 +42,22 @@ def authors_articles(request):
 @login_required(login_url="/accounts/login/")
 def article_create(request):
     if request.method == 'POST':
-        form = forms.CreateArticle(request.POST, request.FILES) # Form takes in user input
+        form = forms.CreateArticle(request.POST, request.FILES) 
         if form.is_valid():
             instance = form.save(commit=False)
             instance.author = request.user # The user who made article is made into author of article
             articles_titles = list(Article.objects.all().values_list('title', flat=True))
-            if instance.title not in articles_titles: 
+            if instance.title not in articles_titles: # to make sure no duplicate names or slugs
                 instance.slug = instance.title
-                instance.save() #save to database. 
+                instance.save() 
                 return redirect('articles:list')
             else:
-                nr = articles_titles.count(instance.title)
+                nr = articles_titles.count(instance.title) # else block adds number to name/slug based on number of same-named articles
                 instance.title = instance.title + "(" + str(nr) + ")"
                 instance.slug = instance.title
-                instance.save() #save to database. 
+                instance.save() 
                 return redirect('articles:list')
-    else: # if GET request, send user form for creating new article
+    else: 
         form = forms.CreateArticle()
     return render(request, 'articles/article_create.html', {'form': form})
 
@@ -69,16 +65,16 @@ def article_create(request):
 def article_comment(request, slug):
     if request.method == 'POST':
         article = Article.objects.get(slug=slug) # Gets article user wants to comment
-        comment = forms.CreateComment(request.POST, request.FILES) # Creates form of comment based on user input   
+        comment = forms.CreateComment(request.POST, request.FILES)   
         if comment.is_valid():
             instance = comment.save(commit=False)
             instance.article = article
             instance.author = request.user # The user who made comment is made into author of comment
-            instance.save() # save to database
+            instance.save() 
             return redirect('articles:detail', slug=slug)
         else:
             try:
-                comments = Article_comment.objects.all() # Try to retrieve all comments already written
+                comments = Article_comment.objects.all() 
                 pass
             except Article_comment.objects.all().DoesNotExist:
                 comments = None
@@ -87,11 +83,11 @@ def article_comment(request, slug):
         return redirect('articles:detail', slug=slug) # if user is redirected from loggin, correctly filled in form (any form) will render with error-messages. 
                                                       # Request.method=='POST' is then false.
 
-@login_required(login_url="/accounts/login/") # Must be logged in to modify articles
+@login_required(login_url="/accounts/login/") 
 def article_modify(request, slug): 
     article = Article.objects.get(slug=slug) # Gets the article that should be modified 
     if request.method == 'POST':
-        user = request.user # Get current user
+        user = request.user 
         if user == article.get_author(): # Only user who is author of article can modify
             form = forms.CreateArticle(request.POST, instance=article) # Takes user input data and article that should be modified and 
             form.save() # updates article information
@@ -100,10 +96,6 @@ def article_modify(request, slug):
     else: # For GET requests. Takes existing Article and render an ArticleForm with prefilled fields that can be modified and send in POST request
         form = forms.CreateArticle(instance=article)
     return render(request, 'articles/article_modify.html', {'form': form, 'article':article})
-
-    #deals with GET requests to render existing saved forms that user want to modify
-    #and POST requests to save the modified version of the form to the database.
-    #POST requests should only occur if logged in user is same user as created article
 
     """From Stackoverflow: Every ModelForm also has a save() method. 
     This method creates and saves a database object from the data bound to the form. 

@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import authentication, generics, mixins, permissions
-
+from .permissions import IsStaffEditorPermission
 
 @api_view(['GET', 'POST'])
 def article_list(request):

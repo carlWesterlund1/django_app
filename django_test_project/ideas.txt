@@ -7,13 +7,16 @@ Done(?):
 Doing:
 5) api app that can respond to different requests such as GET, PUSH 
 to communicate data about articles, users etc. and changing of this data.
-6) search for articles by article name or author?
+6) a) search for article by content b) no results found if no match
+c) partial matches for title
+7) centering the layout 
+
        
 To do:
-7) user can reply to comments?
-8) user can react to comments with emoji?
-9) styling the app...
-10) consume api for some functionality
+8) user can reply to comments?
+9) user can react to comments with emoji?
+10) styling the app...
+11) consume api for some functionality
   a) find resources online through google api that cover same subject as article written by user.
   This could be used to show user(s) suggestions regarding sources of reference for fact checking, learning more etc. 
   b) 

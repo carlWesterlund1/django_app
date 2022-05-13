@@ -12,8 +12,8 @@ def signup_view(request):
     if request.method == 'POST':
         user_form = UserCreationForm(request.POST)
         if user_form.is_valid():
-            new_user = user_form.save()
-            user_profile = Profile() # creates user profile object
+            new_user = user_form.save() # saves new user
+            user_profile = Profile() # creates new profile
             user_profile.user = new_user # sets foreignkey of user profile to the saved user object
             user_profile.save()
             login(request, new_user)  
