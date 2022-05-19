@@ -8,8 +8,13 @@ from django.contrib.auth import get_user_model
 
 
 def article_list(request):
-    articles = Article.objects.all().order_by("date")
-    if request.method == 'POST':
+    try:
+        order = request.GET['sort_article']
+    except:
+        order = "date"
+    if request.method == 'GET':
+        articles = Article.objects.all().order_by(order)
+    elif request.method == 'POST':
         articles = []
         form = forms.SearchArticle(request.POST) # Form for finding article matching user input
         if form.is_valid():
@@ -17,8 +22,9 @@ def article_list(request):
             for article in list(Article.objects.all()):
                 if instance.title==article.title:
                     articles.append(article) # appending to list with matches
+    
     search_form = forms.SearchArticle()
-    return render(request, "articles/article_list.html", { 'articles': articles, 'search_form': search_form})
+    return render(request, "articles/article_list.html", { 'articles': articles, 'search_form': search_form, 'order': order})
 
 def article_detail(request, slug):
     article = Article.objects.get(slug=slug)

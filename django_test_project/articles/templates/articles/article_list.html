@@ -9,6 +9,18 @@
             <input type="submit" value="Search">
         </form>
         <br>
+        <form action="{% url 'articles:list' %}" method="get">
+            <label for="sort">Sort by</label>
+                <select name="sort_article" id="sort">
+                    <option value="" selected disabled hidden>{{order}}</option>
+                    <option value="title">title (A-z)</option>
+                    <option value="-title">-title (Z-a)</option>
+                    <option value="date">date (newest-oldest)</option>
+                    <option value="-date">-date (oldest-newest)</option>
+                </select>
+            <input type="submit" value="Apply" />
+        </form>
+        <br>
         {% if request.method == 'GET' %}
         <h1> Article list </h1>
         {% endif %}
