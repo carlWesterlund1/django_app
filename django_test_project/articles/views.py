@@ -6,7 +6,18 @@ from django.contrib.auth.decorators import login_required
 from . import forms
 from django.contrib.auth import get_user_model
 
-
+def find_article_match(search_word, articles):
+    matching_articles = {}
+    for article in articles:
+        art_body_list = str(article.body).split(" ")
+        n = 0
+        for word in art_body_list:                       # function should return articles that contain the search word, 
+             if word == search_word:                     # preferably based on number of matches/article.                                      
+                n += 1                                   # Function to be used in article_list() below.
+        if n > 0:
+            matching_articles[article] = n 
+    return matching_articles        
+                    
 def article_list(request):
     try:
         order = request.GET['sort_article']
